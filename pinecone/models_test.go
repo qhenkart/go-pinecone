@@ -353,7 +353,7 @@ func TestMarshalVectorUnit(t *testing.T) {
 	if err != nil {
 		t.Fatalf("Failed to create metadata: %v", err)
 	}
-	vecValues := []float32{0.1, 0.2, 0.3}
+	vecValues := []float64{0.1, 0.2, 0.3}
 
 	tests := []struct {
 		name  string
@@ -368,7 +368,7 @@ func TestMarshalVectorUnit(t *testing.T) {
 				Metadata: metadata,
 				SparseValues: &SparseValues{
 					Indices: []uint32{1, 2, 3},
-					Values:  []float32{0.1, 0.2, 0.3},
+					Values:  []float64{0.1, 0.2, 0.3},
 				},
 			},
 			want: `{"id":"vector-1","values":[0.1,0.2,0.3],"sparse_values":{"indices":[1,2,3],"values":[0.1,0.2,0.3]},"metadata":{"genre":"rock"}}`,
@@ -404,7 +404,7 @@ func TestMarshalScoredVectorUnit(t *testing.T) {
 	if err != nil {
 		t.Fatalf("Failed to create metadata: %v", err)
 	}
-	vecValues := []float32{0.1, 0.2, 0.3}
+	vecValues := []float64{0.1, 0.2, 0.3}
 
 	tests := []struct {
 		name  string
@@ -420,7 +420,7 @@ func TestMarshalScoredVectorUnit(t *testing.T) {
 					Metadata: metadata,
 					SparseValues: &SparseValues{
 						Indices: []uint32{1, 2, 3},
-						Values:  []float32{0.1, 0.2, 0.3},
+						Values:  []float64{0.1, 0.2, 0.3},
 					},
 				},
 				Score: 0.9,
@@ -463,7 +463,7 @@ func TestMarshalSparseValuesUnit(t *testing.T) {
 			name: "All fields present",
 			input: SparseValues{
 				Indices: []uint32{1, 2, 3},
-				Values:  []float32{0.1, 0.2, 0.3},
+				Values:  []float64{0.1, 0.2, 0.3},
 			},
 			want: `{"indices":[1,2,3],"values":[0.1,0.2,0.3]}`,
 		},

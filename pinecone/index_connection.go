@@ -220,7 +220,7 @@ func (idx *IndexConnection) UpsertVectors(ctx context.Context, in []*Vector) (ui
 //   - Metadata: The metadata with which you want to update the vector.
 type UpdateVectorRequest struct {
 	Id           string
-	Values       []float32
+	Values       []float64
 	SparseValues *SparseValues
 	Metadata     *Metadata
 }
@@ -488,7 +488,7 @@ func (idx *IndexConnection) ListVectors(ctx context.Context, in *ListVectorsRequ
 //   - IncludeMetadata: (Optional) Whether to include the metadata associated with the vectors in the response.
 //   - SparseValues: (Optional) The sparse values of the query vector, if applicable.
 type QueryByVectorValuesRequest struct {
-	Vector          []float32
+	Vector          []float64
 	TopK            uint32
 	MetadataFilter  *MetadataFilter
 	IncludeValues   bool
@@ -1595,7 +1595,7 @@ func toVector(vector *db_data_grpc.Vector) *Vector {
 	if vector == nil {
 		return nil
 	}
-	var vectorValues *[]float32
+	var vectorValues *[]float64
 	if vector.Values != nil {
 		vectorValues = &vector.Values
 	}
@@ -1732,7 +1732,7 @@ func vecToGrpc(v *Vector) *db_data_grpc.Vector {
 	if v == nil {
 		return nil
 	}
-	var vecValues []float32
+	var vecValues []float64
 	if v.Values != nil {
 		vecValues = *v.Values
 	}

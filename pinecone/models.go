@@ -154,7 +154,7 @@ type ServerlessSpec struct {
 // [dense or sparse vector object]: https://docs.pinecone.io/guides/get-started/key-concepts#dense-vector
 type Vector struct {
 	Id           string        `json:"id"`
-	Values       *[]float32    `json:"values,omitempty"`
+	Values       *[]float64    `json:"values,omitempty"`
 	SparseValues *SparseValues `json:"sparse_values,omitempty"`
 	Metadata     *Metadata     `json:"metadata,omitempty"`
 }
@@ -171,7 +171,7 @@ type ScoredVector struct {
 // [hybrid search]: https://docs.pinecone.io/guides/data/understanding-hybrid-search#hybrid-search-in-pinecone
 type SparseValues struct {
 	Indices []uint32  `json:"indices,omitempty"`
-	Values  []float32 `json:"values,omitempty"`
+	Values  []float64 `json:"values,omitempty"`
 }
 
 // [NamespaceSummary] is a summary of stats for a Pinecone [namespace].
