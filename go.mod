@@ -1,4 +1,4 @@
-module github.com//go-pinecone/v3
+module github.com/qhenkart/go-pinecone/v3
 
 go 1.21
 
