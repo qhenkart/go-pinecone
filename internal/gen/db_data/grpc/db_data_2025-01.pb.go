@@ -28,7 +28,7 @@ type SparseValues struct {
 	unknownFields protoimpl.UnknownFields
 
 	Indices []uint32  `protobuf:"varint,1,rep,packed,name=indices,proto3" json:"indices,omitempty"`
-	Values  []float32 `protobuf:"fixed32,2,rep,packed,name=values,proto3" json:"values,omitempty"`
+	Values  []float64 `protobuf:"fixed32,2,rep,packed,name=values,proto3" json:"values,omitempty"`
 }
 
 func (x *SparseValues) Reset() {
@@ -70,7 +70,7 @@ func (x *SparseValues) GetIndices() []uint32 {
 	return nil
 }
 
-func (x *SparseValues) GetValues() []float32 {
+func (x *SparseValues) GetValues() []float64 {
 	if x != nil {
 		return x.Values
 	}
@@ -85,7 +85,7 @@ type Vector struct {
 	// This is the vector's unique id.
 	Id string `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
 	// This is the vector data included in the request.
-	Values []float32 `protobuf:"fixed32,2,rep,packed,name=values,proto3" json:"values,omitempty"`
+	Values []float64 `protobuf:"fixed32,2,rep,packed,name=values,proto3" json:"values,omitempty"`
 	// This is the sparse data included in the request. Can only be specified if `sparse` index.
 	SparseValues *SparseValues `protobuf:"bytes,4,opt,name=sparse_values,json=sparseValues,proto3" json:"sparse_values,omitempty"`
 	// This is the metadata included in the request.
@@ -131,7 +131,7 @@ func (x *Vector) GetId() string {
 	return ""
 }
 
-func (x *Vector) GetValues() []float32 {
+func (x *Vector) GetValues() []float64 {
 	if x != nil {
 		return x.Values
 	}
@@ -160,9 +160,9 @@ type ScoredVector struct {
 	// This is the vector's unique id.
 	Id string `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
 	// This is a measure of similarity between this vector and the query vector.  The higher the score, the more they are similar.
-	Score float32 `protobuf:"fixed32,2,opt,name=score,proto3" json:"score,omitempty"`
+	Score float64 `protobuf:"fixed32,2,opt,name=score,proto3" json:"score,omitempty"`
 	// This is the vector data, if it is requested.
-	Values []float32 `protobuf:"fixed32,3,rep,packed,name=values,proto3" json:"values,omitempty"`
+	Values []float64 `protobuf:"fixed32,3,rep,packed,name=values,proto3" json:"values,omitempty"`
 	// This is the sparse data, if it is requested.
 	SparseValues *SparseValues `protobuf:"bytes,5,opt,name=sparse_values,json=sparseValues,proto3" json:"sparse_values,omitempty"`
 	// This is the metadata, if it is requested.
@@ -208,14 +208,14 @@ func (x *ScoredVector) GetId() string {
 	return ""
 }
 
-func (x *ScoredVector) GetScore() float32 {
+func (x *ScoredVector) GetScore() float64 {
 	if x != nil {
 		return x.Score
 	}
 	return 0
 }
 
-func (x *ScoredVector) GetValues() []float32 {
+func (x *ScoredVector) GetValues() []float64 {
 	if x != nil {
 		return x.Values
 	}
@@ -934,7 +934,7 @@ type QueryVector struct {
 	unknownFields protoimpl.UnknownFields
 
 	// The query vector. This should be the same length as the dimension of the index being queried. Each `query()` request can contain only one of the parameters `id` or `vector`.
-	Values []float32 `protobuf:"fixed32,1,rep,packed,name=values,proto3" json:"values,omitempty"`
+	Values []float64 `protobuf:"fixed32,1,rep,packed,name=values,proto3" json:"values,omitempty"`
 	// The query sparse values.
 	SparseValues *SparseValues `protobuf:"bytes,5,opt,name=sparse_values,json=sparseValues,proto3" json:"sparse_values,omitempty"`
 	// An override for the number of results to return for this query vector.
@@ -977,7 +977,7 @@ func (*QueryVector) Descriptor() ([]byte, []int) {
 	return file_db_data_2025_01_proto_rawDescGZIP(), []int{14}
 }
 
-func (x *QueryVector) GetValues() []float32 {
+func (x *QueryVector) GetValues() []float64 {
 	if x != nil {
 		return x.Values
 	}
@@ -1033,7 +1033,7 @@ type QueryRequest struct {
 	// Deprecated: Marked as deprecated in db_data_2025-01.proto.
 	Queries []*QueryVector `protobuf:"bytes,6,rep,name=queries,proto3" json:"queries,omitempty"`
 	// The query vector. This should be the same length as the dimension of the index being queried. Each `query()` request can contain only one of the parameters `id` or `vector`.
-	Vector []float32 `protobuf:"fixed32,7,rep,packed,name=vector,proto3" json:"vector,omitempty"`
+	Vector []float64 `protobuf:"fixed32,7,rep,packed,name=vector,proto3" json:"vector,omitempty"`
 	// The query sparse values.
 	SparseVector *SparseValues `protobuf:"bytes,9,opt,name=sparse_vector,json=sparseVector,proto3" json:"sparse_vector,omitempty"`
 	// The unique ID of the vector to be used as a query vector. Each `query()` request can contain only one of the parameters `queries`, `vector`, or  `id`.
@@ -1115,7 +1115,7 @@ func (x *QueryRequest) GetQueries() []*QueryVector {
 	return nil
 }
 
-func (x *QueryRequest) GetVector() []float32 {
+func (x *QueryRequest) GetVector() []float64 {
 	if x != nil {
 		return x.Vector
 	}
@@ -1330,7 +1330,7 @@ type UpdateRequest struct {
 	// Vector's unique id.
 	Id string `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
 	// Vector data.
-	Values []float32 `protobuf:"fixed32,2,rep,packed,name=values,proto3" json:"values,omitempty"`
+	Values []float64 `protobuf:"fixed32,2,rep,packed,name=values,proto3" json:"values,omitempty"`
 	// Sparse vector data.
 	SparseValues *SparseValues `protobuf:"bytes,5,opt,name=sparse_values,json=sparseValues,proto3" json:"sparse_values,omitempty"`
 	// Metadata to set for the vector.
@@ -1378,7 +1378,7 @@ func (x *UpdateRequest) GetId() string {
 	return ""
 }
 
-func (x *UpdateRequest) GetValues() []float32 {
+func (x *UpdateRequest) GetValues() []float64 {
 	if x != nil {
 		return x.Values
 	}
@@ -1563,7 +1563,7 @@ type DescribeIndexStatsResponse struct {
 	// Serverless indexes scale automatically as needed, so index fullness is relevant only for pod-based indexes.
 	//
 	// The index fullness result may be inaccurate during pod resizing; to get the status of a pod resizing process, use [`describe_index`](https://docs.pinecone.io/reference/api/2024-04/control-plane/describe_index).
-	IndexFullness float32 `protobuf:"fixed32,3,opt,name=index_fullness,json=indexFullness,proto3" json:"index_fullness,omitempty"`
+	IndexFullness float64 `protobuf:"fixed32,3,opt,name=index_fullness,json=indexFullness,proto3" json:"index_fullness,omitempty"`
 	// The total number of vectors in the index, regardless of whether a metadata filter expression was passed
 	TotalVectorCount uint32 `protobuf:"varint,4,opt,name=total_vector_count,json=totalVectorCount,proto3" json:"total_vector_count,omitempty"`
 	// The metric of the index.
@@ -1618,7 +1618,7 @@ func (x *DescribeIndexStatsResponse) GetDimension() uint32 {
 	return 0
 }
 
-func (x *DescribeIndexStatsResponse) GetIndexFullness() float32 {
+func (x *DescribeIndexStatsResponse) GetIndexFullness() float64 {
 	if x != nil {
 		return x.IndexFullness
 	}

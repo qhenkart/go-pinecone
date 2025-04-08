@@ -26,7 +26,7 @@ func (ts *IntegrationTests) TestFetchVectors() {
 }
 
 func (ts *IntegrationTests) TestQueryByVector() {
-	vec := make([]float32, derefOrDefault(ts.dimension, 0))
+	vec := make([]float64, derefOrDefault(ts.dimension, 0))
 	for i := range vec {
 		vec[i] = 0.01
 	}
@@ -197,7 +197,7 @@ func (ts *IntegrationTests) TestMetadataAppliedToRequests() {
 func (ts *IntegrationTests) TestUpdateVectorValues() {
 	ctx := context.Background()
 
-	expectedVals := []float32{7.2, 7.2, 7.2, 7.2, 7.2}
+	expectedVals := []float64{7.2, 7.2, 7.2, 7.2, 7.2}
 	err := ts.idxConn.UpdateVector(ctx, &UpdateVectorRequest{
 		Id:     ts.vectorIds[0],
 		Values: expectedVals,
@@ -213,7 +213,7 @@ func (ts *IntegrationTests) TestUpdateVectorValues() {
 		if len(vector.Vectors) > 0 {
 			actualVals := vector.Vectors[ts.vectorIds[0]].Values
 			if actualVals != nil {
-				if !slicesEqual[float32](expectedVals, *actualVals) {
+				if !slicesEqual[float64](expectedVals, *actualVals) {
 					return fmt.Errorf("Values do not match")
 				} else {
 					return nil // Test passed
@@ -280,7 +280,7 @@ func (ts *IntegrationTests) TestUpdateVectorSparseValues() {
 
 	dims := int32(derefOrDefault(ts.dimension, 0))
 	indices := generateUint32Array(int(dims))
-	vals := generateFloat32Array(int(dims))
+	vals := generatefloat64Array(int(dims))
 	expectedSparseValues := SparseValues{
 		Indices: indices,
 		Values:  vals,
@@ -312,7 +312,7 @@ func (ts *IntegrationTests) TestUpdateVectorSparseValues() {
 			}
 			actualSparseValues := vector.SparseValues.Values
 
-			if !slicesEqual[float32](expectedSparseValues.Values, actualSparseValues) {
+			if !slicesEqual[float64](expectedSparseValues.Values, actualSparseValues) {
 				return fmt.Errorf("Sparse values do not match")
 			}
 			return nil // Test passed
@@ -502,8 +502,8 @@ func TestNewIndexConnectionNamespace(t *testing.T) {
 }
 
 func TestMarshalFetchVectorsResponseUnit(t *testing.T) {
-	vec1Values := []float32{0.01, 0.01, 0.01}
-	vec2Values := []float32{0.02, 0.02, 0.02}
+	vec1Values := []float64{0.01, 0.01, 0.01}
+	vec2Values := []float64{0.02, 0.02, 0.02}
 
 	tests := []struct {
 		name  string
@@ -603,8 +603,8 @@ func TestMarshalListVectorsResponseUnit(t *testing.T) {
 }
 
 func TestMarshalQueryVectorsResponseUnit(t *testing.T) {
-	vec1Values := []float32{0.01, 0.01, 0.01}
-	vec2Values := []float32{0.02, 0.02, 0.02}
+	vec1Values := []float64{0.01, 0.01, 0.01}
+	vec2Values := []float64{0.02, 0.02, 0.02}
 	tests := []struct {
 		name  string
 		input QueryVectorsResponse
@@ -698,7 +698,7 @@ func TestMarshalDescribeIndexStatsResponseUnit(t *testing.T) {
 }
 
 func TestToVectorUnit(t *testing.T) {
-	vecValues := []float32{0.01, 0.02, 0.03}
+	vecValues := []float64{0.01, 0.02, 0.03}
 
 	tests := []struct {
 		name     string
@@ -714,7 +714,7 @@ func TestToVectorUnit(t *testing.T) {
 			name: "Pass dense vector",
 			vector: &db_data_grpc.Vector{
 				Id:     "dense-1",
-				Values: []float32{0.01, 0.02, 0.03},
+				Values: []float64{0.01, 0.02, 0.03},
 			},
 			expected: &Vector{
 				Id:     "dense-1",
@@ -728,7 +728,7 @@ func TestToVectorUnit(t *testing.T) {
 				Values: nil,
 				SparseValues: &db_data_grpc.SparseValues{
 					Indices: []uint32{0, 2},
-					Values:  []float32{0.01, 0.03},
+					Values:  []float64{0.01, 0.03},
 				},
 			},
 			expected: &Vector{
@@ -736,7 +736,7 @@ func TestToVectorUnit(t *testing.T) {
 				Values: nil,
 				SparseValues: &SparseValues{
 					Indices: []uint32{0, 2},
-					Values:  []float32{0.01, 0.03},
+					Values:  []float64{0.01, 0.03},
 				},
 			},
 		},
@@ -744,10 +744,10 @@ func TestToVectorUnit(t *testing.T) {
 			name: "Pass hybrid vector",
 			vector: &db_data_grpc.Vector{
 				Id:     "hybrid-1",
-				Values: []float32{0.01, 0.02, 0.03},
+				Values: []float64{0.01, 0.02, 0.03},
 				SparseValues: &db_data_grpc.SparseValues{
 					Indices: []uint32{0, 2},
-					Values:  []float32{0.01, 0.03},
+					Values:  []float64{0.01, 0.03},
 				},
 			},
 
@@ -756,7 +756,7 @@ func TestToVectorUnit(t *testing.T) {
 				Values: &vecValues,
 				SparseValues: &SparseValues{
 					Indices: []uint32{0, 2},
-					Values:  []float32{0.01, 0.03},
+					Values:  []float64{0.01, 0.03},
 				},
 			},
 		},
@@ -764,10 +764,10 @@ func TestToVectorUnit(t *testing.T) {
 			name: "Pass hybrid vector with metadata",
 			vector: &db_data_grpc.Vector{
 				Id:     "hybrid-metadata-1",
-				Values: []float32{0.01, 0.02, 0.03},
+				Values: []float64{0.01, 0.02, 0.03},
 				SparseValues: &db_data_grpc.SparseValues{
 					Indices: []uint32{0, 2},
-					Values:  []float32{0.01, 0.03},
+					Values:  []float64{0.01, 0.03},
 				},
 				Metadata: &structpb.Struct{
 					Fields: map[string]*structpb.Value{
@@ -779,7 +779,7 @@ func TestToVectorUnit(t *testing.T) {
 				Values: &vecValues,
 				SparseValues: &SparseValues{
 					Indices: []uint32{0, 2},
-					Values:  []float32{0.01, 0.03},
+					Values:  []float64{0.01, 0.03},
 				},
 				Metadata: &structpb.Struct{
 					Fields: map[string]*structpb.Value{
@@ -812,11 +812,11 @@ func TestToSparseValuesUnit(t *testing.T) {
 			name: "Pass sparse values",
 			sparseValues: &db_data_grpc.SparseValues{
 				Indices: []uint32{0, 2},
-				Values:  []float32{0.01, 0.03},
+				Values:  []float64{0.01, 0.03},
 			},
 			expected: &SparseValues{
 				Indices: []uint32{0, 2},
-				Values:  []float32{0.01, 0.03},
+				Values:  []float64{0.01, 0.03},
 			},
 		},
 	}
@@ -829,7 +829,7 @@ func TestToSparseValuesUnit(t *testing.T) {
 }
 
 func TestToScoredVectorUnit(t *testing.T) {
-	vecValues := []float32{0.01, 0.02, 0.03}
+	vecValues := []float64{0.01, 0.02, 0.03}
 
 	tests := []struct {
 		name         string
@@ -845,7 +845,7 @@ func TestToScoredVectorUnit(t *testing.T) {
 			name: "Pass scored dense vector",
 			scoredVector: &db_data_grpc.ScoredVector{
 				Id:     "dense-1",
-				Values: []float32{0.01, 0.02, 0.03},
+				Values: []float64{0.01, 0.02, 0.03},
 				Score:  0.1,
 			},
 			expected: &ScoredVector{
@@ -862,7 +862,7 @@ func TestToScoredVectorUnit(t *testing.T) {
 				Id: "sparse-1",
 				SparseValues: &db_data_grpc.SparseValues{
 					Indices: []uint32{0, 2},
-					Values:  []float32{0.01, 0.03},
+					Values:  []float64{0.01, 0.03},
 				},
 				Score: 0.2,
 			},
@@ -871,7 +871,7 @@ func TestToScoredVectorUnit(t *testing.T) {
 					Id: "sparse-1",
 					SparseValues: &SparseValues{
 						Indices: []uint32{0, 2},
-						Values:  []float32{0.01, 0.03},
+						Values:  []float64{0.01, 0.03},
 					},
 				},
 				Score: 0.2,
@@ -881,10 +881,10 @@ func TestToScoredVectorUnit(t *testing.T) {
 			name: "Pass scored hybrid vector",
 			scoredVector: &db_data_grpc.ScoredVector{
 				Id:     "hybrid-1",
-				Values: []float32{0.01, 0.02, 0.03},
+				Values: []float64{0.01, 0.02, 0.03},
 				SparseValues: &db_data_grpc.SparseValues{
 					Indices: []uint32{0, 2},
-					Values:  []float32{0.01, 0.03},
+					Values:  []float64{0.01, 0.03},
 				},
 				Score: 0.3,
 			},
@@ -894,7 +894,7 @@ func TestToScoredVectorUnit(t *testing.T) {
 					Values: &vecValues,
 					SparseValues: &SparseValues{
 						Indices: []uint32{0, 2},
-						Values:  []float32{0.01, 0.03},
+						Values:  []float64{0.01, 0.03},
 					},
 				},
 				Score: 0.3,
@@ -904,10 +904,10 @@ func TestToScoredVectorUnit(t *testing.T) {
 			name: "Pass scored hybrid vector with metadata",
 			scoredVector: &db_data_grpc.ScoredVector{
 				Id:     "hybrid-metadata-1",
-				Values: []float32{0.01, 0.02, 0.03},
+				Values: []float64{0.01, 0.02, 0.03},
 				SparseValues: &db_data_grpc.SparseValues{
 					Indices: []uint32{0, 2},
-					Values:  []float32{0.01, 0.03},
+					Values:  []float64{0.01, 0.03},
 				},
 				Metadata: &structpb.Struct{
 					Fields: map[string]*structpb.Value{
@@ -922,7 +922,7 @@ func TestToScoredVectorUnit(t *testing.T) {
 					Values: &vecValues,
 					SparseValues: &SparseValues{
 						Indices: []uint32{0, 2},
-						Values:  []float32{0.01, 0.03},
+						Values:  []float64{0.01, 0.03},
 					},
 					Metadata: &structpb.Struct{
 						Fields: map[string]*structpb.Value{
@@ -943,7 +943,7 @@ func TestToScoredVectorUnit(t *testing.T) {
 }
 
 func TestVecToGrpcUnit(t *testing.T) {
-	vecValues := []float32{0.01, 0.02, 0.03}
+	vecValues := []float64{0.01, 0.02, 0.03}
 
 	tests := []struct {
 		name     string
@@ -963,7 +963,7 @@ func TestVecToGrpcUnit(t *testing.T) {
 			},
 			expected: &db_data_grpc.Vector{
 				Id:     "dense-1",
-				Values: []float32{0.01, 0.02, 0.03},
+				Values: []float64{0.01, 0.02, 0.03},
 			},
 		},
 		{
@@ -973,14 +973,14 @@ func TestVecToGrpcUnit(t *testing.T) {
 				Values: nil,
 				SparseValues: &SparseValues{
 					Indices: []uint32{0, 2},
-					Values:  []float32{0.01, 0.03},
+					Values:  []float64{0.01, 0.03},
 				},
 			},
 			expected: &db_data_grpc.Vector{
 				Id: "sparse-1",
 				SparseValues: &db_data_grpc.SparseValues{
 					Indices: []uint32{0, 2},
-					Values:  []float32{0.01, 0.03},
+					Values:  []float64{0.01, 0.03},
 				},
 			},
 		},
@@ -991,15 +991,15 @@ func TestVecToGrpcUnit(t *testing.T) {
 				Values: &vecValues,
 				SparseValues: &SparseValues{
 					Indices: []uint32{0, 2},
-					Values:  []float32{0.01, 0.03},
+					Values:  []float64{0.01, 0.03},
 				},
 			},
 			expected: &db_data_grpc.Vector{
 				Id:     "hybrid-1",
-				Values: []float32{0.01, 0.02, 0.03},
+				Values: []float64{0.01, 0.02, 0.03},
 				SparseValues: &db_data_grpc.SparseValues{
 					Indices: []uint32{0, 2},
-					Values:  []float32{0.01, 0.03},
+					Values:  []float64{0.01, 0.03},
 				},
 			},
 		},
@@ -1010,7 +1010,7 @@ func TestVecToGrpcUnit(t *testing.T) {
 				Values: &vecValues,
 				SparseValues: &SparseValues{
 					Indices: []uint32{0, 2},
-					Values:  []float32{0.01, 0.03},
+					Values:  []float64{0.01, 0.03},
 				},
 				Metadata: &structpb.Struct{
 					Fields: map[string]*structpb.Value{
@@ -1020,10 +1020,10 @@ func TestVecToGrpcUnit(t *testing.T) {
 			},
 			expected: &db_data_grpc.Vector{
 				Id:     "hybrid-metadata-1",
-				Values: []float32{0.01, 0.02, 0.03},
+				Values: []float64{0.01, 0.02, 0.03},
 				SparseValues: &db_data_grpc.SparseValues{
 					Indices: []uint32{0, 2},
-					Values:  []float32{0.01, 0.03},
+					Values:  []float64{0.01, 0.03},
 				},
 				Metadata: &structpb.Struct{
 					Fields: map[string]*structpb.Value{
@@ -1058,18 +1058,18 @@ func TestSparseValToGrpcUnit(t *testing.T) {
 			name: "Pass sparse values",
 			sparseValues: &SparseValues{
 				Indices: []uint32{0, 2},
-				Values:  []float32{0.01, 0.03},
+				Values:  []float64{0.01, 0.03},
 			},
 			expected: &db_data_grpc.SparseValues{
 				Indices: []uint32{0, 2},
-				Values:  []float32{0.01, 0.03},
+				Values:  []float64{0.01, 0.03},
 			},
 		},
 		{
 			name: "Pass sparse values with metadata (metadata is ignored)",
 			sparseValues: &SparseValues{
 				Indices: []uint32{0, 2},
-				Values:  []float32{0.01, 0.03},
+				Values:  []float64{0.01, 0.03},
 			},
 			metadata: &structpb.Struct{
 				Fields: map[string]*structpb.Value{
@@ -1078,7 +1078,7 @@ func TestSparseValToGrpcUnit(t *testing.T) {
 			},
 			expected: &db_data_grpc.SparseValues{
 				Indices: []uint32{0, 2},
-				Values:  []float32{0.01, 0.03},
+				Values:  []float64{0.01, 0.03},
 			},
 		},
 	}
@@ -1247,10 +1247,10 @@ func TestToPaginationTokenGrpc(t *testing.T) {
 }
 
 // Helper funcs
-func generateFloat32Array(n int) []float32 {
-	array := make([]float32, n)
+func generatefloat64Array(n int) []float64 {
+	array := make([]float64, n)
 	for i := 0; i < n; i++ {
-		array[i] = float32(i)
+		array[i] = float64(i)
 	}
 	return array
 }
@@ -1267,7 +1267,7 @@ func uint32Pointer(i uint32) *uint32 {
 	return &i
 }
 
-func slicesEqual[T comparable](a, b []float32) bool {
+func slicesEqual[T comparable](a, b []float64) bool {
 	if len(a) != len(b) {
 		return false
 	}

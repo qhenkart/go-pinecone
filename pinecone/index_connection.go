@@ -174,13 +174,13 @@ func (idx *IndexConnection) Close() error {
 //
 //	    sparseValues := pinecone.SparseValues{
 //		       Indices: []uint32{0, 1},
-//		       Values:  []float32{1.0, 2.0},
+//		       Values:  []float64{1.0, 2.0},
 //	    }
 //
 //	    vectors := []*pinecone.Vector{
 //		       {
 //			       Id:           "abc-1",
-//			       Values:       []float32{1.0, 2.0},
+//			       Values:       []float64{1.0, 2.0},
 //			       Metadata:     metadata,
 //			       SparseValues: &sparseValues,
 //		       },
@@ -220,7 +220,7 @@ func (idx *IndexConnection) UpsertVectors(ctx context.Context, in []*Vector) (ui
 //   - Metadata: The metadata with which you want to update the vector.
 type UpdateVectorRequest struct {
 	Id           string
-	Values       []float32
+	Values       []float64
 	SparseValues *SparseValues
 	Metadata     *Metadata
 }
@@ -265,7 +265,7 @@ type UpdateVectorRequest struct {
 //
 //	    err = idxConnection.UpdateVector(ctx, &pinecone.UpdateVectorRequest{
 //		       Id:     id,
-//		       Values: []float32{7.0, 8.0},
+//		       Values: []float64{7.0, 8.0},
 //	    })
 //
 //	    if err != nil {
@@ -488,7 +488,7 @@ func (idx *IndexConnection) ListVectors(ctx context.Context, in *ListVectorsRequ
 //   - IncludeMetadata: (Optional) Whether to include the metadata associated with the vectors in the response.
 //   - SparseValues: (Optional) The sparse values of the query vector, if applicable.
 type QueryByVectorValuesRequest struct {
-	Vector          []float32
+	Vector          []float64
 	TopK            uint32
 	MetadataFilter  *MetadataFilter
 	IncludeValues   bool
@@ -547,7 +547,7 @@ type QueryVectorsResponse struct {
 //		       log.Fatalf("Failed to create IndexConnection for Host: %v. Error: %v", idx.Host, err)
 //	    }
 //
-//	    queryVector := []float32{1.0, 2.0}
+//	    queryVector := []float64{1.0, 2.0}
 //	    topK := uint32(10)
 //
 //	    metadataMap := map[string]interface{}{
@@ -562,7 +562,7 @@ type QueryVectorsResponse struct {
 //
 //	    sparseValues := pinecone.SparseValues{
 //		       Indices: []uint32{0, 1},
-//		       Values:  []float32{1.0, 2.0},
+//		       Values:  []float64{1.0, 2.0},
 //	    }
 //
 //	    res, err := idxConnection.QueryByVectorValues(ctx, &pinecone.QueryByVectorValuesRequest{
@@ -1116,7 +1116,7 @@ func (idx *IndexConnection) DeleteAllVectorsInNamespace(ctx context.Context) err
 //   - Namespaces: The namespace(s) in the [Index].
 type DescribeIndexStatsResponse struct {
 	Dimension        *uint32                      `json:"dimension"`
-	IndexFullness    float32                      `json:"index_fullness"`
+	IndexFullness    float64                      `json:"index_fullness"`
 	TotalVectorCount uint32                       `json:"total_vector_count"`
 	Namespaces       map[string]*NamespaceSummary `json:"namespaces,omitempty"`
 }
@@ -1595,7 +1595,7 @@ func toVector(vector *db_data_grpc.Vector) *Vector {
 	if vector == nil {
 		return nil
 	}
-	var vectorValues *[]float32
+	var vectorValues *[]float64
 	if vector.Values != nil {
 		vectorValues = &vector.Values
 	}
@@ -1732,7 +1732,7 @@ func vecToGrpc(v *Vector) *db_data_grpc.Vector {
 	if v == nil {
 		return nil
 	}
-	var vecValues []float32
+	var vecValues []float64
 	if v.Values != nil {
 		vecValues = *v.Values
 	}

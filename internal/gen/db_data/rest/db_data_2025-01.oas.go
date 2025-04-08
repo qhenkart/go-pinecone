@@ -83,7 +83,7 @@ type Hit struct {
 	Id string `json:"_id"`
 
 	// Score The similarity score of the returned record.
-	Score float32 `json:"_score"`
+	Score float64 `json:"_score"`
 
 	// Fields The selected record fields associated with the search hit.
 	Fields map[string]interface{} `json:"fields"`
@@ -113,7 +113,7 @@ type ImportModel struct {
 	Id *string `json:"id,omitempty"`
 
 	// PercentComplete The progress made by the operation, as a percentage.
-	PercentComplete *float32 `json:"percentComplete,omitempty"`
+	PercentComplete *float64 `json:"percentComplete,omitempty"`
 
 	// RecordsImported The number of records successfully imported.
 	RecordsImported *int64 `json:"recordsImported,omitempty"`
@@ -138,7 +138,7 @@ type IndexDescription struct {
 	// Serverless indexes scale automatically as needed, so index fullness  is relevant only for pod-based indexes.
 	//
 	// The index fullness result may be inaccurate during pod resizing; to get the status of a pod resizing process, use [`describe_index`](https://docs.pinecone.io/reference/api/2024-10/control-plane/describe_index).
-	IndexFullness *float32 `json:"indexFullness,omitempty"`
+	IndexFullness *float64 `json:"indexFullness,omitempty"`
 
 	// Metric The metric used to measure similarity.
 	Metric *string `json:"metric,omitempty"`
@@ -212,7 +212,7 @@ type QueryRequest struct {
 	TopK int64 `json:"topK"`
 
 	// Vector The query vector. This should be the same length as the dimension of the index being queried. Each `query` request can contain only one of the parameters `id` or `vector`.
-	Vector *[]float32 `json:"vector,omitempty"`
+	Vector *[]float64 `json:"vector,omitempty"`
 }
 
 // QueryResponse The response for the `query` operation. These are the matches found for a particular query vector. The matches are ordered from most similar to least similar.
@@ -244,7 +244,7 @@ type QueryVector struct {
 	TopK *int64 `json:"topK,omitempty"`
 
 	// Values The query vector values. This should be the same length as the dimension of the index being queried.
-	Values []float32 `json:"values"`
+	Values []float64 `json:"values"`
 }
 
 // ScoredVector defines model for ScoredVector.
@@ -256,13 +256,13 @@ type ScoredVector struct {
 	Metadata *map[string]interface{} `json:"metadata,omitempty"`
 
 	// Score This is a measure of similarity between this vector and the query vector.  The higher the score, the more they are similar.
-	Score *float32 `json:"score,omitempty"`
+	Score *float64 `json:"score,omitempty"`
 
 	// SparseValues Vector sparse data. Represented as a list of indices and a list of  corresponded values, which must be with the same length.
 	SparseValues *SparseValues `json:"sparseValues,omitempty"`
 
 	// Values This is the vector data, if it is requested.
-	Values *[]float32 `json:"values,omitempty"`
+	Values *[]float64 `json:"values,omitempty"`
 }
 
 // SearchRecordsRequest A search request for records in a specific namespace.
@@ -320,7 +320,7 @@ type SearchRecordsVector struct {
 	SparseIndices *[]int32 `json:"sparse_indices,omitempty"`
 
 	// SparseValues The sparse embedding values.
-	SparseValues *[]float32 `json:"sparse_values,omitempty"`
+	SparseValues *[]float64 `json:"sparse_values,omitempty"`
 
 	// Values This is the vector data included in the request.
 	Values *VectorValues `json:"values,omitempty"`
@@ -353,7 +353,7 @@ type SparseValues struct {
 	Indices []int64 `json:"indices"`
 
 	// Values The corresponding values of the sparse data, which must be with the same length as the indices.
-	Values []float32 `json:"values"`
+	Values []float64 `json:"values"`
 }
 
 // StartImportRequest The request for the `start_import` operation.
@@ -389,7 +389,7 @@ type UpdateRequest struct {
 	SparseValues *SparseValues `json:"sparseValues,omitempty"`
 
 	// Values Vector data.
-	Values *[]float32 `json:"values,omitempty"`
+	Values *[]float64 `json:"values,omitempty"`
 }
 
 // UpdateResponse The response for the `update` operation.
@@ -434,11 +434,11 @@ type Vector struct {
 	SparseValues *SparseValues `json:"sparseValues,omitempty"`
 
 	// Values This is the vector data included in the request.
-	Values *[]float32 `json:"values,omitempty"`
+	Values *[]float64 `json:"values,omitempty"`
 }
 
 // VectorValues This is the vector data included in the request.
-type VectorValues = []float32
+type VectorValues = []float64
 
 // ProtobufAny defines model for protobufAny.
 type ProtobufAny struct {

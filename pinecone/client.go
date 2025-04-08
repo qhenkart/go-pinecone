@@ -1678,7 +1678,7 @@ type RerankRequest struct {
 type RankedDocument struct {
 	Document *Document `json:"document,omitempty"`
 	Index    int       `json:"index"`
-	Score    float32   `json:"score"`
+	Score    float64   `json:"score"`
 }
 
 // [RerankResponse] is the result of a reranking operation.

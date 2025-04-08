@@ -209,13 +209,13 @@ func generateVectors(numOfVectors int, dimension int32, isSparse bool, metadata 
 	return vectors
 }
 
-func generateVectorValues(dimension int32) *[]float32 {
+func generateVectorValues(dimension int32) *[]float64 {
 	maxInt := 1000000 // A large integer to normalize the float values
-	values := make([]float32, dimension)
+	values := make([]float64, dimension)
 
 	for i := int32(0); i < dimension; i++ {
 		// Generate a random integer and normalize it to the range [0, 1)
-		values[i] = float32(rand.Intn(maxInt)) / float32(maxInt)
+		values[i] = float64(rand.Intn(maxInt)) / float64(maxInt)
 	}
 
 	return &values

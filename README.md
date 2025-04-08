@@ -676,22 +676,22 @@ func main() {
 	vectors := []*pinecone.Vector{
 		{
 			Id:           "A",
-			Values:       []float32{0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1},
+			Values:       []float64{0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1},
 			Metadata:     metadata,
 		},
 		{
 			Id:           "B",
-			Values:       []float32{0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2},
+			Values:       []float64{0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2},
 			Metadata:     metadata,
 		},
 		{
 			Id:           "C",
-			Values:       []float32{0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3},
+			Values:       []float64{0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3},
 			Metadata:     metadata,
 		},
 		{
 			Id:           "D",
-			Values:       []float32{0.4, 0.4, 0.4, 0.4, 0.4, 0.4, 0.4, 0.4},
+			Values:       []float64{0.4, 0.4, 0.4, 0.4, 0.4, 0.4, 0.4, 0.4},
 			Metadata:     metadata,
 		},
 	}
@@ -754,7 +754,7 @@ func main() {
 			Metadata:     metadata,
 			SparseValues: &pinecone.SparseValues{
 				Indices: []uint32{0, 1, 2, 3, 4, 5, 6, 7},
-				Values:  []float32{1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0},
+				Values:  []float64{1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0},
 			},
 		},
 		{
@@ -762,7 +762,7 @@ func main() {
 			Metadata:     metadata,
 			SparseValues: &pinecone.SparseValues{
 				Indices: []uint32{0, 1, 2, 3, 4, 5, 6, 7},
-				Values:  []float32{3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0, 8.0},
+				Values:  []float64{3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0, 8.0},
 			},
 		},
 		{
@@ -770,7 +770,7 @@ func main() {
 			Metadata:     metadata,
 			SparseValues: &pinecone.SparseValues{
 				Indices: []uint32{0, 1, 2, 3, 4, 5, 6, 7},
-				Values:  []float32{4.0, 5.0, 6.0, 7.0, 8.0, 9.0, 8.0, 7.0},
+				Values:  []float64{4.0, 5.0, 6.0, 7.0, 8.0, 9.0, 8.0, 7.0},
 			},
 		},
 		{
@@ -778,7 +778,7 @@ func main() {
 			Metadata:     metadata,
 			SparseValues: &pinecone.SparseValues{
 				Indices: []uint32{0, 1, 2, 3, 4, 5, 6, 7},
-				Values:  []float32{5.0, 6.0, 7.0, 8.0, 9.0, 8.0, 7.0, 6.0},
+				Values:  []float64{5.0, 6.0, 7.0, 8.0, 9.0, 8.0, 7.0, 6.0},
 			},
 		},
 	}
@@ -905,7 +905,7 @@ func main() {
 		log.Fatalf("Failed to create IndexConnection for Host %v: %v", idx.Host, err)
 	}
 
-	queryVector := []float32{0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3}
+	queryVector := []float64{0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3}
 
 	metadataMap := map[string]interface{}{
 		"genre": map[string]interface{}{
@@ -1326,7 +1326,7 @@ func main() {
 
 	err = idxConnection.UpdateVector(ctx, &pinecone.UpdateVectorRequest{
 		Id:     id,
-		Values: []float32{4.0, 2.0},
+		Values: []float64{4.0, 2.0},
 	})
 	if err != nil {
 		log.Fatalf("Failed to update vector with ID %v: %v", id, err)

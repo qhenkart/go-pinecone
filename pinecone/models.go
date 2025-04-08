@@ -154,7 +154,7 @@ type ServerlessSpec struct {
 // [dense or sparse vector object]: https://docs.pinecone.io/guides/get-started/key-concepts#dense-vector
 type Vector struct {
 	Id           string        `json:"id"`
-	Values       *[]float32    `json:"values,omitempty"`
+	Values       *[]float64    `json:"values,omitempty"`
 	SparseValues *SparseValues `json:"sparse_values,omitempty"`
 	Metadata     *Metadata     `json:"metadata,omitempty"`
 }
@@ -163,7 +163,7 @@ type Vector struct {
 // [Index].
 type ScoredVector struct {
 	Vector *Vector `json:"vector,omitempty"`
-	Score  float32 `json:"score"`
+	Score  float64 `json:"score"`
 }
 
 // [SparseValues] is a sparse vector objects, most commonly used for [hybrid search].
@@ -171,7 +171,7 @@ type ScoredVector struct {
 // [hybrid search]: https://docs.pinecone.io/guides/data/understanding-hybrid-search#hybrid-search-in-pinecone
 type SparseValues struct {
 	Indices []uint32  `json:"indices,omitempty"`
-	Values  []float32 `json:"values,omitempty"`
+	Values  []float64 `json:"values,omitempty"`
 }
 
 // [NamespaceSummary] is a summary of stats for a Pinecone [namespace].
@@ -211,7 +211,7 @@ type Metadata = structpb.Struct
 //
 // [generating embeddings]: https://docs.pinecone.io/guides/inference/generate-embeddings#3-generate-embeddings
 type Embedding struct {
-	Values *[]float32 `json:"values,omitempty"`
+	Values *[]float64 `json:"values,omitempty"`
 }
 
 // [ImportStatus] represents the status of an [Import] operation.
@@ -257,7 +257,7 @@ const (
 //   - Error: If the [Import] failed, contains the error message associated with the failure.
 type Import struct {
 	Id              string       `json:"id,omitempty"`
-	PercentComplete float32      `json:"percent_complete,omitempty"`
+	PercentComplete float64      `json:"percent_complete,omitempty"`
 	RecordsImported int64        `json:"records_imported,omitempty"`
 	Status          ImportStatus `json:"status,omitempty"`
 	Uri             string       `json:"uri,omitempty"`
@@ -320,7 +320,7 @@ type SearchRecordsRerank struct {
 //   - Fields: The selected record fields associated with the search hit.
 type Hit struct {
 	Id     string                 `json:"_id"`
-	Score  float32                `json:"_score"`
+	Score  float64                `json:"_score"`
 	Fields map[string]interface{} `json:"fields"`
 }
 
@@ -344,8 +344,8 @@ type SearchRecordsResponse struct {
 //   - Values: The dense vector data included in the request.
 type SearchRecordsVector struct {
 	SparseIndices *[]int32   `json:"sparse_indices,omitempty"`
-	SparseValues  *[]float32 `json:"sparse_values,omitempty"`
-	Values        *[]float32 `json:"values,omitempty"`
+	SparseValues  *[]float64 `json:"sparse_values,omitempty"`
+	Values        *[]float64 `json:"values,omitempty"`
 }
 
 // SearchUsage represents the resource usage details of a search operation.

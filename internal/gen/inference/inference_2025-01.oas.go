@@ -52,7 +52,7 @@ const (
 // DenseEmbedding A dense embedding of a single input
 type DenseEmbedding struct {
 	// Values The dense embedding values.
-	Values []float32 `json:"values"`
+	Values []float64 `json:"values"`
 
 	// VectorType Indicates whether this is a 'dense' or 'sparse' embedding.
 	VectorType VectorType `json:"vector_type"`
@@ -125,7 +125,7 @@ type RankedDocument struct {
 	Index int `json:"index"`
 
 	// Score The relevance of the document to the query, normalized between 0 and 1, with scores closer to 1 indicating higher relevance.
-	Score float32 `json:"score"`
+	Score float64 `json:"score"`
 }
 
 // RerankRequest defines model for RerankRequest.
@@ -178,7 +178,7 @@ type SparseEmbedding struct {
 	SparseTokens *[]string `json:"sparse_tokens,omitempty"`
 
 	// SparseValues The sparse embedding values.
-	SparseValues []float32 `json:"sparse_values"`
+	SparseValues []float64 `json:"sparse_values"`
 
 	// VectorType Indicates whether this is a 'dense' or 'sparse' embedding.
 	VectorType VectorType `json:"vector_type"`
